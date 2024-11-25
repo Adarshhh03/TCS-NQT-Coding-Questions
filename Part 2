@@ -1,0 +1,71 @@
+//Unique Paths
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int m, n;
+    cout << "Enter the number of rows (m): ";
+    cin >> m;
+    cout << "Enter the number of columns (n): ";
+    cin >> n;
+
+    vector<vector<int>> dp(m, vector<int>(n, 1));
+
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+    }
+
+    cout << "Number of unique paths: " << dp[m - 1][n - 1] << endl;
+    return 0;
+}
+
+
+
+
+//Maximum Of Subarray of Size K
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n, k;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+
+    vector<int> arr(n);
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    cout << "Enter the window size: ";
+    cin >> k;
+
+    deque<int> dq;
+    vector<int> ans;
+
+    for (int i = 0; i < arr.size(); i++) {
+        // Remove elements outside the current window
+        if (!dq.empty() && dq.front() == i - k) 
+            dq.pop_front();
+
+        // Remove all elements smaller than the current element
+        while (!dq.empty() && arr[dq.back()] < arr[i])
+            dq.pop_back();
+
+        dq.push_back(i);
+
+        // Add the maximum element of the current window
+        if (i >= k - 1) 
+            ans.push_back(arr[dq.front()]);
+    }
+
+    cout << "Maximum element in every " << k << "-window:" << endl;
+    for (int i = 0; i < ans.size(); i++)
+        cout << ans[i] << " ";
+
+    return 0;
+}
