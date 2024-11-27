@@ -1,0 +1,78 @@
+//Bitwise ORs of Subarray
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+using namespace std;
+
+int main() {
+    // Input: Take the array size and elements from the user
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+
+    vector<int> arr(n);
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+
+    // Unique Bitwise OR Subarrays logic
+    unordered_set<int> uniqueResult; // Stores unique bitwise OR results
+    unordered_set<int> previous;     // Stores results from the previous iteration
+
+    for (int i = 0; i < arr.size(); i++) {
+        unordered_set<int> current; // Stores current results
+        current.insert(arr[i]);
+        uniqueResult.insert(arr[i]); // Add the current element to unique results
+
+        for (int prev : previous) {  // Combine current element with previous results
+            current.insert(prev | arr[i]);
+            uniqueResult.insert(prev | arr[i]);
+        }
+
+        previous = current; // Update previous results for the next iteration
+    }
+
+    // Output: Display the size of unique bitwise OR results
+    cout << "Number of unique bitwise OR results: " << uniqueResult.size() << endl;
+
+    return 0;
+}
+
+
+//Majority Elements
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+int main() {
+    // Input: Take the array size and elements from the user
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+
+    vector<int> nums(n);
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> nums[i];
+    }
+
+    // Majority Element logic
+    unordered_map<int, int> hash; // Map to store frequency of each element
+    int res = 0;                 // To store the majority element
+    int majority = 0;            // To store the highest frequency
+
+    for (int num : nums) {
+        hash[num] = 1 + hash[num]; // Increment frequency of the current element
+        if (hash[num] > majority) {
+            res = num;            // Update majority element
+            majority = hash[num]; // Update highest frequency
+        }
+    }
+
+    // Output: Display the majority element
+    cout << "The majority element is: " << res << endl;
+
+    return 0;
+}
